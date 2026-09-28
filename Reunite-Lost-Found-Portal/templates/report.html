@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Report an item · Reunite{% endblock %}
+
+{% block content %}
+<section class="report-hero wrap">
+  <div><p class="eyebrow"><span></span>Make a report</p><h1>Let’s help it find its way.</h1><p>Share enough detail for the right person to recognise the item. Contact information stays private until a claim is made.</p></div>
+  <div class="report-steps"><span class="active">1</span><i></i><span>2</span><i></i><span>3</span><small>Item details&nbsp;&nbsp;&nbsp;&nbsp; Contact&nbsp;&nbsp;&nbsp;&nbsp; Published</small></div>
+</section>
+
+<section class="report-layout wrap">
+  <form class="report-form" method="post">
+    <div class="form-section">
+      <div class="form-section-heading"><span>01</span><div><h2>What are you reporting?</h2><p>Choose the type that best fits your item.</p></div></div>
+      <div class="type-options">
+        <label class="type-option"><input type="radio" name="item_type" value="lost" {{ 'checked' if form.get('item_type', 'lost') == 'lost' }}><span><b>⌁</b><strong>I lost something</strong><small>I’m looking for an item</small></span></label>
+        <label class="type-option"><input type="radio" name="item_type" value="found" {{ 'checked' if form.get('item_type') == 'found' }}><span><b>✦</b><strong>I found something</strong><small>I want to return an item</small></span></label>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-heading"><span>02</span><div><h2>Tell us about the item</h2><p>The more distinctive details you can share, the better.</p></div></div>
+      <div class="field-grid">
+        <label class="field full">Item name *<input name="title" required value="{{ form.get('title', '') }}" placeholder="e.g. Navy blue water bottle"></label>
+        <label class="field">Category *<select name="category" required><option value="" disabled {{ 'selected' if not form.get('category') }}>Choose a category</option>{% for category in categories %}<option value="{{ category }}" {{ 'selected' if form.get('category') == category }}>{{ category }}</option>{% endfor %}</select></label>
+        <label class="field">Color or identifying detail<input name="color" value="{{ form.get('color', '') }}" placeholder="e.g. Navy blue"></label>
+        <label class="field full">Description *<textarea name="description" required placeholder="Include brands, labels, stickers, contents, or any helpful detail.">{{ form.get('description', '') }}</textarea></label>
+        <label class="field">Where was it lost or found? *<input name="location" required value="{{ form.get('location', '') }}" placeholder="e.g. Library, second floor"></label>
+        <label class="field">When did this happen? *<input type="date" name="date_reported" required value="{{ form.get('date_reported', '') }}"></label>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-heading"><span>03</span><div><h2>How can we reach you?</h2><p>Your details are only shared when you approve a matching claim.</p></div></div>
+      <div class="field-grid">
+        <label class="field">Your name *<input name="contact_name" required value="{{ form.get('contact_name', '') }}" placeholder="Full name"></label>
+        <label class="field">Email address *<input type="email" name="contact_email" required value="{{ form.get('contact_email', '') }}" placeholder="you@example.com"></label>
+        <label class="field full">Phone number <span class="optional">Optional</span><input type="tel" name="contact_phone" value="{{ form.get('contact_phone', '') }}" placeholder="For faster coordination"></label>
+      </div>
+    </div>
+    <div class="form-submit"><p>By posting, you agree to keep communication kind and only share information needed to verify ownership.</p><button class="button button-primary" type="submit">Publish report <span aria-hidden="true">→</span></button></div>
+  </form>
+  <aside class="report-aside"><div class="aside-icon">♥</div><h2>A small report can mean a lot.</h2><p>Every listing is a chance to return something valuable, sentimental, or simply needed.</p><div class="aside-tip"><span>✦</span><p><strong>Privacy tip</strong>Keep a unique detail private until someone makes a claim. It’s the best way to confirm a true match.</p></div></aside>
+</section>
+{% endblock %}

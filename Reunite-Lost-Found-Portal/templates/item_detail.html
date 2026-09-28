@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ item.title }} · Reunite{% endblock %}
+
+{% block content %}
+<div class="detail-wrap wrap">
+  <a class="back-link" href="{{ url_for('browse') }}">← Back to all listings</a>
+  <section class="detail-layout">
+    <div class="detail-visual item-art {{ item.icon }}">
+      {% if item.icon == 'bag' %}<span class="art-bag"></span>{% endif %}
+      {% if item.icon == 'shirt' %}<span class="art-shirt">⌁</span>{% endif %}
+      {% if item.icon == 'bolt' %}<span class="art-earbuds">◖ ◗</span>{% endif %}
+      {% if item.icon == 'key' %}<span class="art-key">⚿</span>{% endif %}
+      {% if item.icon == 'sparkle' %}<span class="art-bottle">⌇</span>{% endif %}
+      {% if item.icon == 'ball' %}<span class="art-ball">◌</span>{% endif %}
+      {% if item.icon == 'box' %}<span class="art-box">□</span>{% endif %}
+    </div>
+    <div class="detail-copy">
+      <div class="card-meta"><span class="status {{ item.item_type }}">{{ item.item_type|capitalize }} item</span><span>Reported {{ item.created_label }}</span></div>
+      <h1>{{ item.title }}</h1>
+      <div class="detail-tags"><span>{{ item.category }}</span>{% if item.color %}<span>{{ item.color }}</span>{% endif %}</div>
+      <p class="detail-description">{{ item.description }}</p>
+      <dl class="item-facts"><div><dt>⌖ Location</dt><dd>{{ item.location }}</dd></div><div><dt>◷ Date reported</dt><dd>{{ item.date_label }}</dd></div></dl>
+      <a class="button button-primary detail-claim-link" href="#claim">{% if item.item_type == 'lost' %}I found this item{% else %}This might be mine{% endif %} <span>→</span></a>
+    </div>
+  </section>
+</div>
+
+<section id="claim" class="claim-section"><div class="wrap claim-layout"><div class="claim-intro"><p class="eyebrow light"><span></span>Private claim</p><h2>Could this be a match?</h2><p>Send a short note to {{ item.contact_name }}. Include a detail only the owner or finder would know to help verify the match.</p><div class="claim-safety"><span>♢</span><p><strong>Stay safe</strong>Meet in a public place when returning an item. Never share sensitive personal information.</p></div></div><form class="claim-form" method="post" action="{{ url_for('claim_item', item_id=item.id) }}"><label class="field">Your name *<input name="claimant_name" required placeholder="Full name"></label><label class="field">Email address *<input type="email" name="claimant_email" required placeholder="you@example.com"></label><label class="field">Why do you think this is yours? *<textarea name="message" required placeholder="Share a distinctive detail to help verify the item."></textarea></label><button class="button button-light" type="submit">Send claim request <span>→</span></button></form></div></section>
+
+{% if related_items %}<section class="section wrap related-section"><div class="section-heading"><div><p class="eyebrow"><span></span>Keep looking</p><h2>Similar listings</h2></div><a class="text-link" href="{{ url_for('browse', category=item.category) }}">View all {{ item.category|lower }} <span>→</span></a></div><div class="item-grid">{% for item in related_items %}{% include "_item_card.html" %}{% endfor %}</div></section>{% endif %}
+{% endblock %}
