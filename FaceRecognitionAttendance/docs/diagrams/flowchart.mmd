@@ -1,0 +1,25 @@
+flowchart TD
+    A([Start]) --> B[Admin Login]
+    B -->|Invalid| C[Show Login Error]
+    C --> B
+    B -->|Valid| D[Dashboard]
+    D --> E{Choose Action}
+    E -->|Register| F[Store Student Details]
+    F --> G[Capture 50-100 Face Images]
+    G --> D
+    E -->|Train| H[Read Dataset]
+    H --> I[Train and Save LBPH Model]
+    I --> D
+    E -->|Take Attendance| J[Open Webcam]
+    J --> K[Detect Face with Haar Cascade]
+    K --> L{Known Face?}
+    L -->|No| M[Display Unknown]
+    L -->|Yes| N{Already Marked Today?}
+    N -->|No| O[Save Present Attendance]
+    N -->|Yes| P[Display Already Present]
+    M --> J
+    O --> J
+    P --> J
+    E -->|View/Export| Q[Search SQLite Records / Write CSV]
+    Q --> D
+    E -->|Exit| R([End])

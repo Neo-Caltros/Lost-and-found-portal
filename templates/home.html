@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Reunite · Find what matters{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow"><span></span>Community lost &amp; found</p>
+    <h1>Lost things have a way<br>of finding <em>home.</em></h1>
+    <p class="hero-text">A kinder, simpler way for our community to reconnect people with the things that matter to them.</p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="{{ url_for('browse') }}">Browse listings <span aria-hidden="true">→</span></a>
+      <a class="text-link" href="{{ url_for('report') }}">Report an item <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="arch arch-back"></div>
+    <div class="arch arch-front"></div>
+    <div class="hero-card card-one"><span class="tiny-label">FOUND</span><span class="mini-key">⚿</span><b>Keys</b><small>East parking lot</small></div>
+    <div class="hero-card card-two"><span class="tiny-label lost-label">LOST</span><span class="mini-bag">▱</span><b>Tote bag</b><small>Campus café</small></div>
+    <div class="hero-spark spark-a">✦</div><div class="hero-spark spark-b">✦</div>
+  </div>
+</section>
+
+<section class="search-shell wrap">
+  <form class="search-form" method="get" action="{{ url_for('browse') }}">
+    <label class="search-input"><span aria-hidden="true">⌕</span><input name="q" value="{{ query }}" placeholder="Search by item, color, or location"></label>
+    <label class="select-input"><span>Category</span><select name="category"><option value="">All categories</option>{% for category in categories %}<option value="{{ category }}" {{ 'selected' if selected_category == category }}>{{ category }}</option>{% endfor %}</select></label>
+    <button class="button button-primary" type="submit">Search</button>
+  </form>
+</section>
+
+<section class="section wrap listings-section">
+  <div class="section-heading">
+    <div><p class="eyebrow"><span></span>Recently reported</p><h2>See something familiar?</h2></div>
+    <a class="text-link" href="{{ url_for('browse') }}">View all listings <span aria-hidden="true">→</span></a>
+  </div>
+  <div class="category-pills" aria-label="Filter by report type">
+    <a class="pill {{ 'selected' if not selected_type }}" href="{{ url_for('browse') }}">All items</a>
+    <a class="pill lost-pill" href="{{ url_for('browse', type='lost') }}">Lost items</a>
+    <a class="pill found-pill" href="{{ url_for('browse', type='found') }}">Found items</a>
+  </div>
+  <div class="item-grid">
+    {% for item in items %}{% include "_item_card.html" %}{% else %}
+      <div class="empty-state"><span>⌕</span><h3>No matching items yet</h3><p>Try another search or report the item so the community can help.</p><a class="button button-primary" href="{{ url_for('report') }}">Report an item</a></div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="steps-band">
+  <div class="wrap steps-layout">
+    <div><p class="eyebrow light"><span></span>Simple by design</p><h2>Good things happen<br>when we look out<br>for each other.</h2></div>
+    <div class="steps">
+      <div><span>01</span><h3>Report it</h3><p>Add a few details about something you lost or found.</p></div>
+      <div><span>02</span><h3>Find a match</h3><p>Browse listings and send a private, secure claim.</p></div>
+      <div><span>03</span><h3>Reunite</h3><p>Coordinate with the reporter and make someone’s day.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="community-note wrap">
+  <div class="note-mark">✦</div><p><strong>{{ stats.total }} active listings</strong> are being cared for by this community. Every report is a small act of kindness.</p><a class="text-link" href="{{ url_for('report') }}">Help someone today <span aria-hidden="true">→</span></a>
+</section>
+{% endblock %}

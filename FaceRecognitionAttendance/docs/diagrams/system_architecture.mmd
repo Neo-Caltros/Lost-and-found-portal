@@ -1,0 +1,21 @@
+flowchart LR
+    Admin[Administrator] --> GUI[Tkinter Desktop GUI]
+    GUI --> Login[Admin Login Module]
+    GUI --> Register[Registration Module]
+    GUI --> Training[Training Module]
+    GUI --> Recognition[Recognition Module]
+    GUI --> Records[Attendance Module]
+    Register --> Camera[Webcam]
+    Recognition --> Camera
+    Camera --> Haar[OpenCV Haar Cascade]
+    Haar --> Register
+    Haar --> Recognition
+    Register --> Dataset[Local Dataset Folder]
+    Dataset --> Training
+    Training --> LBPH[OpenCV LBPH Recognizer]
+    LBPH --> Model[trainer.yml]
+    Model --> Recognition
+    Recognition --> SQLite[(SQLite Database)]
+    Register --> SQLite
+    Records --> SQLite
+    SQLite --> CSV[Attendance CSV Export]

@@ -1,0 +1,24 @@
+sequenceDiagram
+    actor Admin
+    participant GUI as Tkinter GUI
+    participant Cam as Webcam/OpenCV
+    participant Model as LBPH Model
+    participant DB as SQLite Database
+    Admin->>GUI: Click Take Attendance
+    GUI->>Model: Load trainer.yml
+    GUI->>Cam: Open camera
+    loop Each frame
+        Cam->>Cam: Detect face with Haar Cascade
+        Cam->>Model: Predict label and distance
+        Model-->>Cam: Student database ID, confidence distance
+        Cam->>DB: Look up student
+        alt Known face and not marked today
+            DB-->>Cam: Student record
+            Cam->>DB: Insert Present record
+            DB-->>GUI: Attendance marked
+        else Unknown or already marked
+            DB-->>GUI: Display status only
+        end
+    end
+    Admin->>Cam: Press Q / Esc
+    Cam-->>GUI: Release camera and close window

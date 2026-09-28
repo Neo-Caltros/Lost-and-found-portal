@@ -1,0 +1,22 @@
+flowchart LR
+    Admin([Administrator])
+    Login([Log in])
+    Register([Register student])
+    Capture([Capture face images])
+    Train([Train/retrain model])
+    Take([Take attendance])
+    View([View/search attendance])
+    Export([Export CSV])
+    Delete([Delete student])
+    Backup([Back up database])
+    Admin --> Login
+    Admin --> Register
+    Admin --> Train
+    Admin --> Take
+    Admin --> View
+    Admin --> Export
+    Admin --> Delete
+    Admin --> Backup
+    Register -. includes .-> Capture
+    Take -. includes .-> Login
+    Export -. uses .-> View

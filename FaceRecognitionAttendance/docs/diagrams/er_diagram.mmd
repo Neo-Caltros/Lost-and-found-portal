@@ -1,0 +1,17 @@
+erDiagram
+    STUDENTS ||--o{ ATTENDANCE : "is marked in"
+    STUDENTS {
+        INTEGER id PK
+        TEXT student_id UK
+        TEXT name
+        TEXT department
+        TEXT semester
+    }
+    ATTENDANCE {
+        INTEGER id PK
+        TEXT student_id
+        TEXT name
+        TEXT date
+        TEXT time
+        TEXT status
+    }

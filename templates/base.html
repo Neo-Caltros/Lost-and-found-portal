@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#6f57db">
+    <title>{% block title %}Reunite · Lost & Found{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="{{ url_for('home') }}" aria-label="Reunite home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>reunite</span>
+      </a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a class="{{ 'active' if request.endpoint in ('home', 'browse') else '' }}" href="{{ url_for('browse') }}">Browse items</a>
+        <a class="{{ 'active' if request.endpoint == 'report' else '' }}" href="{{ url_for('report') }}">Report an item</a>
+      </nav>
+      <a class="button button-small button-dark" href="{{ url_for('report') }}">Report an item <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-stack wrap">
+            {% for category, message in messages %}
+              <div class="flash {{ category }}"><span aria-hidden="true">{% if category == 'success' %}✓{% else %}!{% endif %}</span>{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand brand-footer" href="{{ url_for('home') }}"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>reunite</span></a>
+      <p>A little help goes a long way. Thanks for keeping our community connected.</p>
+      <span>© 2026 Reunite</span>
+    </footer>
+  </body>
+</html>

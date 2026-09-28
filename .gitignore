@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+
+data/attendance.csv
+data/attendance.db
+data/attendance.xlsx
+data/lost_found.db
+data/students/
+data/trainer/
+static/captures/
+
+.env

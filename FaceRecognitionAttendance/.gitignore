@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.py[cod]
+database/backups/
+dataset/user.*.jpg
+trainer/trainer.yml
+trainer/model_metadata.json

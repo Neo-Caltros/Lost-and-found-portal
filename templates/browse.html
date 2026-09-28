@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Browse listings · Reunite{% endblock %}
+
+{% block content %}
+<section class="page-intro wrap">
+  <p class="eyebrow"><span></span>Community board</p>
+  <h1>Browse reported items</h1>
+  <p>Look through recent reports, or narrow down the list with a few details.</p>
+</section>
+
+<section class="browse-layout wrap">
+  <aside class="filters">
+    <form method="get">
+      <div class="filter-heading"><h2>Filter listings</h2><a href="{{ url_for('browse') }}">Clear all</a></div>
+      <label class="search-input compact"><span aria-hidden="true">⌕</span><input name="q" value="{{ query }}" placeholder="Search items"></label>
+      <fieldset><legend>Listing type</legend>
+        <label class="radio-row"><input type="radio" name="type" value="" {{ 'checked' if not selected_type }}><span>All items</span></label>
+        <label class="radio-row"><input type="radio" name="type" value="lost" {{ 'checked' if selected_type == 'lost' }}><span class="status lost">Lost</span></label>
+        <label class="radio-row"><input type="radio" name="type" value="found" {{ 'checked' if selected_type == 'found' }}><span class="status found">Found</span></label>
+      </fieldset>
+      <fieldset><legend>Category</legend>
+        {% for category in categories %}<label class="radio-row"><input type="radio" name="category" value="{{ category }}" {{ 'checked' if selected_category == category }}><span>{{ category }}</span></label>{% endfor %}
+      </fieldset>
+      <button class="button button-primary filter-button" type="submit">Apply filters</button>
+    </form>
+  </aside>
+  <div class="browse-results">
+    <div class="results-head"><p><strong>{{ items|length }}</strong> listing{{ '' if items|length == 1 else 's' }}{% if query %} for “{{ query }}”{% endif %}</p><a class="button button-small button-dark" href="{{ url_for('report') }}">Report an item <span>↗</span></a></div>
+    <div class="item-grid">
+      {% for item in items %}{% include "_item_card.html" %}{% else %}
+        <div class="empty-state"><span>⌕</span><h3>Nothing here just yet</h3><p>Broaden your filters, or be the first to report this item.</p><a class="button button-primary" href="{{ url_for('report') }}">Report an item</a></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
